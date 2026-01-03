@@ -55,6 +55,7 @@ update_mooks() {
 
 # create dirs in tmux config dir
 create_dirs() {
+  # MacOS bash (3.2) doesn't support -n. Use eval to build local array using eval instead
   local in_dirs=$1
   local dirs=()
   eval 'dirs=( "${'"$in_dirs"'[@]}" )'
@@ -92,6 +93,7 @@ cp_main_conf() {
 
 # set mooks paths in main.conf
 set_paths() {
+  # BSD sed requires backup-suffix after the flag. Use empty backup suffix workaround
   sed -i '' "s|@mooks-dir '[^']*'|@mooks-dir '$MOOKS_DIR'|" "$TMUX_DIR/conf.d/main.conf"
   sed -i '' "s|@mooks-install-dir '[^']*'|@mooks-install-dir '$MOOKS_DIR'|" "$TMUX_DIR/conf.d/main.conf"
   sed -i '' "s|@mooks-tmux-conf '[^']*'|@mooks-tmux-conf '$MOOKS_DIR/tmux.conf'|" "$TMUX_DIR/conf.d/main.conf"
